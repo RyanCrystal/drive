@@ -1,3 +1,4 @@
+delete require.cache['/var/www/www.ryansky.org/hello.js']
 const http = require('http');
 
 const hostname = 'localhost';
