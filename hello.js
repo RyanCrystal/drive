@@ -51,6 +51,15 @@ app.route('/').get((req, res) => {
     res.write('</form>');
     return res.end();
 });
+
+app.route('/post').get((req, res) => {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write('<form action="upload" method="post" enctype="multipart/form-data">');
+    res.write('<input type="file" name="fileToUpload"><br>');
+    res.write('<input type="submit">');
+    res.write('</form>');
+    return res.end();
+});
  
 const server = app.listen(3000, function () {
     console.log(`Listening on port ${server.address().port}`);
