@@ -3,6 +3,7 @@ const busboy = require('connect-busboy');   // Middleware to handle the file upl
 const path = require('path');               // Used for manipulation with path
 const fs = require('fs-extra');             // Classic fs
  
+
 const app = express(); // Initialize the express web server
 app.use(busboy({
     highWaterMark: 2 * 1024 * 1024, // Set 2MiB buffer
