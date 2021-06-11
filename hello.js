@@ -6,7 +6,6 @@ const mongodb = require('mongodb');
 const { encrypt, decrypt } = require('./crypto');
  
 var env = process.env.NODE_ENV || 'development';
-console.log(env)
 
 const app = express(); // Initialize the express web server
 app.use(busboy({
