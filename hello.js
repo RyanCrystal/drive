@@ -7,7 +7,6 @@ const { encrypt, decrypt } = require('./crypto');
  
 var env = process.env.NODE_ENV || 'development';
 
-
 const app = express(); // Initialize the express web server
 app.use(busboy({
     highWaterMark: 2 * 1024 * 1024, // Set 2MiB buffer
