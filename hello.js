@@ -5,6 +5,7 @@ const fs = require('fs-extra');             // Classic fs
 const mongodb = require('mongodb');
 const { encrypt, decrypt } = require('./crypto');
  
+var env = process.env.NODE_ENV || 'development';
 
 const app = express(); // Initialize the express web server
 app.use(busboy({
@@ -66,10 +67,11 @@ app.route('/upload').post((req, res, next) => {
             download_url = req.headers.host+ '/download/public/'+ hash.iv +'/' +hash.content;
             console.log(download_url);
             console.log(`Upload of '${filename}' finished`);
+            var protocol = env == 'development'? 'http':'https';
             // res.redirect('back');
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.write('<h1>You can share this link with others to download the file</h1><br>');
-            res.write(`<a href=https://${download_url}>https://${download_url}</a>`);
+            res.write(`<a href=${protocol}://${download_url}>${protocol}://${download_url}</a>`);
       
             return res.end();
         });
