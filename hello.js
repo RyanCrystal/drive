@@ -3,6 +3,7 @@ const busboy = require('connect-busboy');   // Middleware to handle the file upl
 const path = require('path');               // Used for manipulation with path
 const fs = require('fs-extra');             // Classic fs
 const mongodb = require('mongodb');
+const { encrypt, decrypt } = require('./crypto');
  
 
 const app = express(); // Initialize the express web server
@@ -50,20 +51,27 @@ app.route('/upload').post((req, res, next) => {
         // Pipe it trough
         file.pipe(fstream);
         file.on('data', function(data) {
-          console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+        //   console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
         });
 
         var download_url;
 
         // On finish of the upload
         fstream.on('close', () => {
-            fs.rename(path.join(uploadPath, filename), path.join(uploadPath, filename+'-'+Date.now()), function(err) {
-                if ( err ) console.log('ERROR: ' + err);
-            });
-            download_url = req.headers.host+ '/'+require('crypto').createHash('md5').update(filename+'-'+Date.now()).digest("hex") +'?export=1';
+            // var currentTimestamp = Date.now();
+            // fs.rename(path.join(uploadPath, filename), path.join(uploadPath, filename+'-'+currentTimestamp), function(err) {
+            //     if ( err ) console.log('ERROR: ' + err);
+            // });
+            var hash = encrypt(filename);
+            download_url = req.headers.host+ '/download/public/'+ hash.iv +'/' +hash.content;
             console.log(download_url);
             console.log(`Upload of '${filename}' finished`);
-            res.redirect('back');
+            // res.redirect('back');
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.write('<h1>You can share this link with others to download the file</h1><br>');
+            res.write(`<a href=https://${download_url}>https://${download_url}</a>`);
+      
+            return res.end();
         });
     });
 });
@@ -73,6 +81,8 @@ app.route('/upload').post((req, res, next) => {
  * Serve the basic index.html with upload form
  */
 app.route('/').get((req, res) => {
+    // console.log(req)
+
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write('<form action="upload" method="post" enctype="multipart/form-data">');
     res.write('<input type="file" name="fileToUpload"><br>');
@@ -90,8 +100,15 @@ app.route('/upload').get((req, res) => {
     return res.end();
 });
 
-app.get('/download', function(req, res){
-    const file = `${__dirname}/upload-folder/dramaticpenguin.MOV`;
+app.get('/download/public/:iv/:content', function(req, res){
+
+    const hash = {
+        iv: req.params.iv,
+        content: req.params.content
+    };
+    filename = decrypt(hash);
+
+    file=path.join(uploadPath, filename)
     res.download(file); // Set disposition and send it.
   });
  
