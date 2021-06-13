@@ -11,7 +11,10 @@ const app = express(); // Initialize the express web server
 app.use(busboy({
     highWaterMark: 2 * 1024 * 1024, // Set 2MiB buffer
 })); // Insert the busboy middle-ware
- 
+
+app.set("view engine", "pug");
+app.set("views", "views");
+
 const uploadPath = path.join(__dirname, 'data/public/'); // Register the upload path
 fs.ensureDir(uploadPath); // Make sure that he upload path exits
  
@@ -59,10 +62,7 @@ app.route('/upload').post((req, res, next) => {
 
         // On finish of the upload
         fstream.on('close', () => {
-            // var currentTimestamp = Date.now();
-            // fs.rename(path.join(uploadPath, filename), path.join(uploadPath, filename+'-'+currentTimestamp), function(err) {
-            //     if ( err ) console.log('ERROR: ' + err);
-            // });
+      
             var hash = encrypt(filename);
             download_url = req.headers.host+ '/download/public/'+ hash.iv +'/' +hash.content;
             console.log(download_url);
