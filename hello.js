@@ -4,10 +4,16 @@ const path = require('path');               // Used for manipulation with path
 const fs = require('fs-extra');             // Classic fs
 const mongodb = require('mongodb');
 const { encrypt, decrypt } = require('./crypto');
+const basicAuth = require('express-basic-auth');
+
+const app = express(); // Initialize the express web server
+app.use(basicAuth({
+    users:{'ryanskydrive': 'fldfh'},
+    challenge: true
+}))
  
 var env = process.env.NODE_ENV || 'development';
 
-const app = express(); // Initialize the express web server
 app.use(busboy({
     highWaterMark: 2 * 1024 * 1024, // Set 2MiB buffer
 })); // Insert the busboy middle-ware
