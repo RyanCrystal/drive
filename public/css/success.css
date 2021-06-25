@@ -1,0 +1,79 @@
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+
+    max-width: 800px;
+    margin: 0 auto;
+
+}
+.form-control {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.input-group-text {
+    display: flex;
+    align-items: center;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    cursor: pointer;
+
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.input-group>.form-control{
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+}
+#msg {
+    color: #217908;
+    text-align: center;
+    margin-top: 50px;
+    font-size: 20px;
+}
+h1{
+    text-align: center;
+}
+#btn-continue-share a{
+   color: #fff;
+    background-color: #7676bd;
+    /* display: inline-block; */
+    padding: 5px;
+    border-radius: 3px;
+    float: right; 
+    text-decoration: none;
+}
+.btn-container{
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}

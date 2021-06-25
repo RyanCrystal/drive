@@ -8,10 +8,10 @@ const basicAuth = require('express-basic-auth');
 
 const app = express(); // Initialize the express web server
 app.use(basicAuth({
-    users:{'ryanskydrive': 'fldfh'},
+    users: { 'ryanskydrive': 'fldfh' },
     challenge: true
 }))
- 
+
 var env = process.env.NODE_ENV || 'development';
 
 app.use(busboy({
@@ -23,7 +23,8 @@ app.set("views", "views");
 
 const uploadPath = path.join(__dirname, 'data/public/'); // Register the upload path
 fs.ensureDir(uploadPath); // Make sure that he upload path exits
- 
+
+app.use(express.static(path.join(__dirname, "public")));
 const MongoClient = mongodb.MongoClient;
 
 // Connect URL
@@ -44,63 +45,66 @@ MongoClient.connect(url, {
     console.log(`MongoDB Connected: ${url}`);
     const courses = db.collection('courses');
     courses.insertOne({ name: 'Web Security' }, (err, result) => { });
-}); 
+});
 
 /**
  * Create route /upload which handles the post request
  */
 app.route('/upload').post((req, res, next) => {
- 
+
     req.pipe(req.busboy); // Pipe it trough busboy
- 
+
     req.busboy.on('file', (fieldname, file, filename) => {
         console.log(`Upload of '${filename}' started`);
- 
+
         // Create a write stream of the new file
         const fstream = fs.createWriteStream(path.join(uploadPath, filename));
         // Pipe it trough
         file.pipe(fstream);
-        file.on('data', function(data) {
-        //   console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+        file.on('data', function (data) {
+            //   console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
         });
 
         var download_url;
 
         // On finish of the upload
         fstream.on('close', () => {
-      
+
             var hash = encrypt(filename);
-            download_url = req.headers.host+ '/download/public/'+ hash.iv +'/' +hash.content;
+            download_url = req.headers.host + '/download/public/' + hash.iv + '/' + hash.content;
             console.log(download_url);
             console.log(`Upload of '${filename}' finished`);
-            var protocol = env == 'development'? 'http':'https';
-            // res.redirect('back');
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.write('<h1>You can share this link with others to download the file</h1><br>');
-            res.write(`<a href=${protocol}://${download_url}>${protocol}://${download_url}</a>`);
-      
+            var protocol = env == 'development' ? 'http' : 'https';
+            var payload = {
+                'protocol': protocol,
+                'download_url': download_url,
+                'back_url': protocol + "://" + req.headers.host
+            }
+            res.status(200).render('success', payload)
+
             return res.end();
         });
     });
 });
- 
- 
+
+
 /**
  * Serve the basic index.html with upload form
  */
 app.route('/').get((req, res) => {
     // console.log(req)
 
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('<form action="upload" method="post" enctype="multipart/form-data">');
-    res.write('<input type="file" name="fileToUpload"><br>');
-    res.write('<input type="submit">');
-    res.write('</form>');
+    // res.writeHead(200, { 'Content-Type': 'text/html' });
+    // res.write('<form action="upload" method="post" enctype="multipart/form-data">');
+    // res.write('<input type="file" name="fileToUpload"><br>');
+    // res.write('<input type="submit">');
+    // res.write('</form>');
+    res.status(200).render("home");
     return res.end();
 });
 
 app.route('/upload').get((req, res) => {
-    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.writeHead(200, { 'Content-Type': 'text/html' });
     res.write('<form action="upload" method="post" enctype="multipart/form-data">');
     res.write('<input type="file" name="fileToUpload"><br>');
     res.write('<input type="submit">');
@@ -108,7 +112,7 @@ app.route('/upload').get((req, res) => {
     return res.end();
 });
 
-app.get('/download/public/:iv/:content', function(req, res){
+app.get('/download/public/:iv/:content', function (req, res) {
 
     const hash = {
         iv: req.params.iv,
@@ -116,10 +120,10 @@ app.get('/download/public/:iv/:content', function(req, res){
     };
     filename = decrypt(hash);
 
-    file=path.join(uploadPath, filename)
+    file = path.join(uploadPath, filename)
     res.download(file); // Set disposition and send it.
-  });
- 
+});
+
 const server = app.listen(3000, function () {
     console.log(`Listening on port ${server.address().port}`);
 });

@@ -1,0 +1,21 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="css/success.css")
+        title success
+    body 
+        h1 You can share this link with others to download the file
+
+        .input-group
+            input.form-control.shared-link(type='text' value=`${protocol}://${download_url}` readOnly)
+            span#copy.input-group-text COPY
+        div#msg
+        div.btn-container
+            div#btn-continue-share 
+                a(href=`${back_url}`) Continue to share
+
+        script(src="js/success.js")
+        
