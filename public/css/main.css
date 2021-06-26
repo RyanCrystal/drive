@@ -7,4 +7,25 @@ form{
 }
 .upload-container{
     text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+#myProgress {
+  width: calc(100% - 30px);
+  background-color: grey;
+}
+
+#myBar {
+  width: 1%;
+  height: 30px;
+  background-color: green;
+}
+#percent{
+    margin-top: 6px;
+    margin-left: 5px;
+    width: 30px;
+}
+.progress-container{
+    display: flex;
+    margin-top: 30px;
 }

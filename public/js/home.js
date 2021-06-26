@@ -65,6 +65,10 @@ document.querySelector('#upload-button').addEventListener('click', function () {
     // upload progress event
     request.upload.addEventListener('progress', function (e) {
         let percent_complete = (e.loaded / e.total) * 100;
+        var elem = document.getElementById("myBar");
+
+        elem.style.width = percent_complete + "%";
+        document.getElementById("percent").innerHTML = percent_complete + "%";
 
         // percentage of upload completed
         console.log(percent_complete);
@@ -73,10 +77,12 @@ document.querySelector('#upload-button').addEventListener('click', function () {
     // AJAX request finished event
     request.addEventListener('load', function (e) {
         // HTTP status message
-        console.log(request.status);
+        // console.log(request.status);
 
         // request.response will hold the response from the server
         console.log(request.response);
+        document.getElementById('success').innerHTML = request.response;
+        copy();
     });
 
     // send POST request to server side script
@@ -84,6 +90,28 @@ document.querySelector('#upload-button').addEventListener('click', function () {
 
     // upload file now
 });
+
+function copy() {
+    var copyTextareaBtn = document.getElementById('copy');
+
+    copyTextareaBtn.addEventListener('click', function (event) {
+        var copyTextarea = document.querySelector('.shared-link');
+        copyTextarea.focus();
+        copyTextarea.select();
+
+        try {
+            var successful = document.execCommand('copy');
+            var msg = successful ? 'successful' : 'unsuccessful';
+            console.log('Copying text command was ' + msg);
+            if (successful) {
+                document.getElementById('msg').innerHTML = 'You have successfully copied the link to your clipboard!'
+            }
+
+        } catch (err) {
+            console.log('Oops, unable to copy');
+        }
+    });
+}
 
 
 
