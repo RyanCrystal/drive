@@ -31,28 +31,6 @@ document.querySelector('#upload-button').addEventListener('click', function () {
     // first file that was chosen
     let file = document.querySelector('#file-input').files[0];
 
-    // allowed types
-    // let allowed_mime_types = ['image/jpeg', 'image/png'];
-
-    // // allowed max size in MB
-    // let allowed_size_mb = 2;
-
-    // // validate file type
-    // if (allowed_mime_types.indexOf(file.type) == -1) {
-    //     alert('Error : Incorrect file type');
-    //     return;
-    // }
-
-    // // validate file size
-    // if (file.size > allowed_size_mb * 1024 * 1024) {
-    //     alert('Error : Exceeded size');
-    //     return;
-    // }
-
-    // // validation is successful
-    // alert('You have chosen the file ' + file.name);
-
-
     let data = new FormData();
 
     // file selected by the user
@@ -80,7 +58,7 @@ document.querySelector('#upload-button').addEventListener('click', function () {
         // console.log(request.status);
 
         // request.response will hold the response from the server
-        console.log(request.response);
+        // console.log(request.response);
         document.getElementById('success').innerHTML = request.response;
         copy();
     });
