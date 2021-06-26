@@ -8,10 +8,13 @@ html(lang="en")
         title RyanSkyDrive
     body
         h1 Welcome to RyanSky Drive 
-        form(action="upload", method="post" enctype="multipart/form-data")
-            input(id="file", type="file", name="fileToUpload" onchange="saveFile(this)") 
-            input(type="submit", value="Upload")
+        //- form(action="upload", method="post" enctype="multipart/form-data")
+        //-     input(id="file", type="file", name="fileToUpload" onchange="saveFile(this)") 
+        //-     input(id="upload-btn" type="submit", value="Upload" disabled)
         //- div#select-files upload
+        div.upload-container
+            input#file-input(type='file' multiple)
+            button#upload-button Upload
         script(src="js/home.js")
 
 
