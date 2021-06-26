@@ -67,8 +67,8 @@ document.querySelector('#upload-button').addEventListener('click', function () {
         let percent_complete = (e.loaded / e.total) * 100;
         var elem = document.getElementById("myBar");
 
-        elem.style.width = Math.trunc(percent_complete) + "%";
-        document.getElementById("percent").innerHTML = percent_complete + "%";
+        elem.style.width = percent_complete + "%";
+        document.getElementById("percent").innerHTML = Math.trunc(percent_complete) + "%";
 
         // percentage of upload completed
         // console.log(percent_complete);
