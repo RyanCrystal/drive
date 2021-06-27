@@ -72,6 +72,8 @@ document.querySelector('#upload-button').addEventListener('click', function () {
         // console.log(request.response);
         document.getElementById('success').innerHTML = request.response;
         copy();
+        document.querySelector('.filename').innerHTML = '';
+        document.querySelector('.upload-container').innerHTML = '';
     });
 
     // send POST request to server side script
