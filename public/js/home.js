@@ -37,12 +37,13 @@ document.querySelector('#upload-button').addEventListener('click', function () {
     let file = document.querySelector('#file-input').files[0];
 
     document.querySelector('.progress-container').classList.remove('hide');
+    document.getElementById('upload-button').disabled = true;
 
     let data = new FormData();
 
     // file selected by the user
     // in case of multiple files append each of them
-    data.append('file', document.querySelector('#file-input').files[0]);
+    data.append('file', document.getElementById('file-input').files[0]);
 
     let request = new XMLHttpRequest();
     request.open('POST', '/upload');
