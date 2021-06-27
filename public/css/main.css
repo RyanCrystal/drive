@@ -1,5 +1,13 @@
+html{
+    padding: 0;
+    margin: 0;
+    background-color: blanchedalmond;
+}
 h1 {
-    font-size: 30px;
+    font-size: 39px;
+    text-align: center;
+}
+h3{
     text-align: center;
 }
 form{
@@ -28,4 +36,44 @@ form{
 .progress-container{
     display: flex;
     margin-top: 30px;
+}
+.progress-container.hide{
+    display: none;
+}
+.add-file svg{
+    width: 50px;
+}
+.add-file svg:hover{
+   fill:red;
+}
+#file-input{
+    height: 1px;
+    width: 1px;
+    opacity: 0;
+}
+.plus-file{
+    display: inline-block;
+    cursor: pointer;
+}
+.add-file-container{
+    display: flex;
+    justify-content: space-evenly;
+}
+#upload-button{
+    background-color: #409fff;
+    height: 50px;
+    width: 9em;
+    border-radius: 1em;
+    color: #ffffff;
+    border-style: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+#upload-button.disabled{
+    background-color: rgb(125 109 109);
+    cursor: default;
+}
+.filename{
+    text-align: center;
+    height: 50px;
 }

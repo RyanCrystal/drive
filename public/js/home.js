@@ -1,25 +1,30 @@
-// async function saveFile(inp) {
-//     let formData = new FormData();
-//     let file = inp.files[0];
-//     if (file) {
-//         document.getElementById('upload-btn').disabled = false;
+function triggerUpload() {
+    document.getElementById('file-input').click();
+}
+async function saveFile(inp) {
+    // let formData = new FormData();
+    let file = inp.files[0];
+    if (file) {
+        document.getElementById('upload-button').classList.remove('disabled');
+        document.querySelector('.filename').innerHTML = 'File: <i>' + file.name + '</i>';
+    }
 
-//     }
+    console.log(file);
 
-//     formData.append("file", file);
+    // formData.append("file", file);
 
-//     const ctrl = new AbortController()    // timeout
-//     setTimeout(() => ctrl.abort(), 5000);
+    // const ctrl = new AbortController()    // timeout
+    // setTimeout(() => ctrl.abort(), 5000);
 
-//     try {
-//         let r = await fetch('/upload',
-//             { method: "POST", body: formData, signal: ctrl.signal });
-//         console.log('HTTP response code:', r.status);
-//     } catch (e) {
-//         console.log('Huston we have problem...:', e);
-//     }
+    // try {
+    //     let r = await fetch('/upload',
+    //         { method: "POST", body: formData, signal: ctrl.signal });
+    //     console.log('HTTP response code:', r.status);
+    // } catch (e) {
+    //     console.log('Huston we have problem...:', e);
+    // }
 
-// }
+}
 
 document.querySelector('#upload-button').addEventListener('click', function () {
     // user has not chosen any file
@@ -30,6 +35,8 @@ document.querySelector('#upload-button').addEventListener('click', function () {
 
     // first file that was chosen
     let file = document.querySelector('#file-input').files[0];
+
+    document.querySelector('.progress-container').classList.remove('hide');
 
     let data = new FormData();
 

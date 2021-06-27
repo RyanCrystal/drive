@@ -65,15 +65,19 @@ h1{
 }
 #btn-continue-share a{
    color: #fff;
-    background-color: #7676bd;
+    background-color: #409fff;
     /* display: inline-block; */
-    padding: 5px;
-    border-radius: 3px;
+    padding: 10px;
+    border-radius: 12px;
     float: right; 
     text-decoration: none;
+    font-size: 18px;
 }
 .btn-container{
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
+}
+#success{
+    margin-top: 50px;
 }
