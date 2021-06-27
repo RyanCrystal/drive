@@ -55,6 +55,10 @@ document.querySelector('#upload-button').addEventListener('click', function () {
         elem.style.width = percent_complete + "%";
         document.getElementById("percent").innerHTML = Math.trunc(percent_complete) + "%";
 
+        if (percent_complete == 100) {
+            document.getElementById('success').innerHTML = '<div>Wait a moment, we are creating the link...';
+        }
+
         // percentage of upload completed
         // console.log(percent_complete);
     });
