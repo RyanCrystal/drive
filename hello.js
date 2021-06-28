@@ -55,10 +55,28 @@ app.route('/upload').post((req, res, next) => {
     req.pipe(req.busboy); // Pipe it trough busboy
 
     req.busboy.on('file', (fieldname, file, filename) => {
+
         console.log(`Upload of '${filename}' started`);
 
+        var newFilename = filename;
+        var nameParts = filename.split('.');
+        var namePartsNum = nameParts.length;
+
+        if (namePartsNum >= 2) {
+            nameParts[namePartsNum - 2] = nameParts[namePartsNum - 2] + '-' + Date.now();
+            console.log(nameParts)
+            newFilename = nameParts.join('.');
+
+            console.log(newFilename)
+        } else {
+            newFilename = newFilename + '-' + Date.now();
+        }
+
+
+        // }
+
         // Create a write stream of the new file
-        const fstream = fs.createWriteStream(path.join(uploadPath, filename));
+        const fstream = fs.createWriteStream(path.join(uploadPath, newFilename));
         // Pipe it trough
         file.pipe(fstream);
         file.on('data', function (data) {
@@ -69,8 +87,8 @@ app.route('/upload').post((req, res, next) => {
 
         // On finish of the upload
         fstream.on('close', () => {
+            var hash = encrypt(newFilename);
 
-            var hash = encrypt(filename);
             download_url = req.headers.host + '/download/public/' + hash.iv + '/' + hash.content;
             console.log(download_url);
             console.log(`Upload of '${filename}' finished`);
@@ -120,8 +138,26 @@ app.get('/download/public/:iv/:content', function (req, res) {
     };
     filename = decrypt(hash);
 
-    file = path.join(uploadPath, filename)
-    res.download(file); // Set disposition and send it.
+    file = path.join(uploadPath, filename);
+    var name = filename;
+    var nameParts = filename.split('.');
+    var namePartsNum = nameParts.length;
+    var nameWithoutExtension
+    if (namePartsNum >= 2) {
+        nameWithoutExtension = nameParts[namePartsNum - 2];
+        nameWithoutExtension = nameWithoutExtension.split('-');
+        if (nameWithoutExtension.length >= 2) {
+            nameWithoutExtension.pop();
+        }
+        nameParts[namePartsNum - 2] = nameWithoutExtension.join('-');
+        name = nameParts.join('.')
+    } else {
+        nameWithoutExtension = filename.split('-');
+        nameWithoutExtension.pop();
+        name = nameWithoutExtension.join('-');
+    }
+
+    res.download(file, name); // Set disposition and send it.
 });
 
 const server = app.listen(3000, function () {
