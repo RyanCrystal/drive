@@ -10,6 +10,7 @@ h1 {
 h3.share-file{
     text-align: center;
     color: #847676;
+    font-size: 21px;
 }
 form{
     text-align: center;
@@ -81,4 +82,9 @@ form{
 #success{
     margin-top: 50px;
     text-align: center;
+}
+#instruction{
+    max-width: 600px;
+    margin: 0 auto;
+    color: #c17417;
 }

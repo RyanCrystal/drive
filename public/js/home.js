@@ -9,7 +9,7 @@ async function saveFile(inp) {
         document.querySelector('.filename').innerHTML = 'File: <i>' + file.name + '</i>';
     }
 
-    console.log(file);
+    // console.log(file);
 
     // formData.append("file", file);
 
