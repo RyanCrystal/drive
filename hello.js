@@ -93,15 +93,15 @@ app.route('/upload').post((req, res, next) => {
 app.route('/').get((req, res) => {
     // console.log(req)
     // console.log(req.headers["accept-language"]);
-    var lang = req.acceptsLanguages('zh-tw', 'zh', 'zh-cn', 'en');
+    var lang = req.acceptsLanguages('fr', 'zh-tw', 'zh', 'zh-cn', 'en');
+    // console.log(lang)
+    if (lang && lang.substring(0, 2) == 'zh') {
 
-    if (!lang) {
-        lang = 'en';
-        res.status(200).render("home");
+        res.status(200).render("zh/home");
         return res.end();
     }
 
-    res.status(200).render("zh/home");
+    res.status(200).render("home");
     return res.end();
 
 
