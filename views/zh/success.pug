@@ -1,0 +1,16 @@
+
+link(rel="stylesheet", href="css/success.css")
+
+h2.notice 注意：此鏈接7天後會過期，到時候您的文件也會被刪除。
+h3.share-file 點擊複製按鈕，將複製的鏈接發送給對方，對方就能下載該文件了。
+
+.input-group
+    input.form-control.shared-link(type='text' value=`${protocol}://${download_url}` readOnly)
+    span#copy.input-group-text 複製
+div#msg
+div.btn-container
+    div#btn-continue-share 
+        a(href=`${back_url}`) 繼續分享
+
+script(src="js/success.js")
+        

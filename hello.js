@@ -5,6 +5,7 @@ const fs = require('fs-extra');             // Classic fs
 const mongodb = require('mongodb');
 const { encrypt, decrypt } = require('./crypto');
 const basicAuth = require('express-basic-auth');
+const mongoose = require("./database");
 
 const app = express(); // Initialize the express web server
 app.use(basicAuth({
@@ -25,27 +26,7 @@ const uploadPath = path.join(__dirname, 'data/public/'); // Register the upload 
 fs.ensureDir(uploadPath); // Make sure that he upload path exits
 
 app.use(express.static(path.join(__dirname, "public")));
-const MongoClient = mongodb.MongoClient;
 
-// Connect URL
-const url = 'mongodb://127.0.0.1:27017';
-
-// Connec to MongoDB
-MongoClient.connect(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}, (err, client) => {
-    if (err) {
-        return console.log(err);
-    }
-
-    // Specify database you want to access
-    const db = client.db('ryanskydrive');
-
-    console.log(`MongoDB Connected: ${url}`);
-    const courses = db.collection('courses');
-    courses.insertOne({ name: 'Web Security' }, (err, result) => { });
-});
 
 /**
  * Create route /upload which handles the post request
@@ -98,7 +79,7 @@ app.route('/upload').post((req, res, next) => {
                 'download_url': download_url,
                 'back_url': protocol + "://" + req.headers.host
             }
-            res.status(200).render('success', payload)
+            res.status(200).render('zh/success', payload)
 
             return res.end();
         });
@@ -111,14 +92,19 @@ app.route('/upload').post((req, res, next) => {
  */
 app.route('/').get((req, res) => {
     // console.log(req)
+    // console.log(req.headers["accept-language"]);
+    var lang = req.acceptsLanguages('zh-tw', 'zh', 'zh-cn', 'en');
 
-    // res.writeHead(200, { 'Content-Type': 'text/html' });
-    // res.write('<form action="upload" method="post" enctype="multipart/form-data">');
-    // res.write('<input type="file" name="fileToUpload"><br>');
-    // res.write('<input type="submit">');
-    // res.write('</form>');
-    res.status(200).render("home");
+    if (!lang) {
+        lang = 'en';
+        res.status(200).render("home");
+        return res.end();
+    }
+
+    res.status(200).render("zh/home");
     return res.end();
+
+
 });
 
 app.route('/upload').get((req, res) => {
