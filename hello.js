@@ -94,7 +94,7 @@ app.route('/').get((req, res) => {
     // console.log(req)
     // console.log(req.headers["accept-language"]);
     var lang = req.acceptsLanguages('fr', 'zh-tw', 'zh', 'zh-cn', 'en');
-    // console.log(lang)
+    console.log(lang)
     if (lang && lang.substring(0, 2) == 'zh') {
 
         res.status(200).render("zh/home");
