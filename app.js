@@ -9,10 +9,10 @@ const basicAuth = require('express-basic-auth');
 // const mongoose = require("./database");
 
 const app = express(); // Initialize the express web server
-app.use(basicAuth({
-    users: { 'ryanskydrive': 'fldfh' },
-    // challenge: true
-}))
+// app.use(basicAuth({
+//     users: { 'ryanskydrive': 'fldfh' },
+//     challenge: true
+// }))
 
 var env = process.env.NODE_ENV || 'development';
 
