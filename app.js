@@ -80,9 +80,16 @@ app.route('/upload').post((req, res, next) => {
                 'download_url': download_url,
                 'back_url': protocol + "://" + req.headers.host
             }
-            res.status(200).render('zh/success', payload)
 
-            return res.end();
+            var lang = req.acceptsLanguages('fr', 'zh-tw', 'zh', 'zh-cn', 'en');
+            console.log(lang)
+            if (lang && lang.substring(0, 2) == 'zh') {
+                return res.status(200).render('zh/success', payload)
+            }
+                
+            return res.status(200).render('success', payload)
+
+                    // return res.end();
         });
     });
 });
