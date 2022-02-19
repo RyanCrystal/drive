@@ -35,6 +35,10 @@ document.querySelector('#upload-button').addEventListener('click', function () {
 
     // first file that was chosen
     let file = document.querySelector('#file-input').files[0];
+    if(file.size > 10*1000*1000){
+        alert('File size exceeds maximum size allowed.');
+        return;
+    }
 
     document.querySelector('.progress-container').classList.remove('hide');
     document.getElementById('upload-button').disabled = true;
