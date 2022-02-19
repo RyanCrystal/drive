@@ -11,7 +11,7 @@ const basicAuth = require('express-basic-auth');
 const app = express(); // Initialize the express web server
 app.use(basicAuth({
     users: { 'ryanskydrive': 'fldfh' },
-    challenge: true
+    // challenge: true
 }))
 
 var env = process.env.NODE_ENV || 'development';
