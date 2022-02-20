@@ -5,15 +5,16 @@ const path = require('path');               // Used for manipulation with path
 const fs = require('fs-extra');             // Classic fs
 const mongodb = require('mongodb');
 const { encrypt, decrypt } = require('./crypto');
+const cre = require('./config');
 // const basicAuth = require('express-basic-auth');
 // const mongoose = require("./database");
 
 const app = express(); // Initialize the express web server
 
-// app.use(basicAuth({
-//     users: { 'ryanskydrive': 'fldfh' },
-//     challenge: true
-// }))
+app.use(basicAuth({
+    users: cre,
+    challenge: true
+}))
 var env = process.env.NODE_ENV || 'development';
 
 app.use(busboy({
